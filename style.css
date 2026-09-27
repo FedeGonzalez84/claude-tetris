@@ -19,6 +19,11 @@
   --toggle-bg: #22223a;
   --toggle-border: #3a3a5a;
   --toggle-text: #aaa;
+  --menu-btn-bg: #22223a;
+  --menu-btn-border: #3a3a5a;
+  --menu-btn-text: #e0e0e0;
+  --menu-accent: #7aa2f7;
+  --menu-accent-text: #0f0f17;
 }
 
 body.light-mode {
@@ -36,6 +41,11 @@ body.light-mode {
   --toggle-bg: #dcdcf0;
   --toggle-border: #9090b8;
   --toggle-text: #3a3a6a;
+  --menu-btn-bg: #dcdcf0;
+  --menu-btn-border: #9090b8;
+  --menu-btn-text: #1a1a2e;
+  --menu-accent: #3d5fc4;
+  --menu-accent-text: #ffffff;
 }
 
 body {
@@ -233,4 +243,101 @@ kbd {
 
 #restart-btn:hover {
   background: #9bbdff;
+}
+
+/* ---- Menú de pausa ---- */
+.pause-box {
+  gap: 14px;
+  min-width: 240px;
+}
+
+.menu-title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: var(--menu-accent);
+}
+
+.menu-view {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.menu-view.hidden {
+  display: none;
+}
+
+.menu-btn {
+  background: var(--menu-btn-bg);
+  color: var(--menu-btn-text);
+  border: 1px solid var(--menu-btn-border);
+  border-radius: 6px;
+  padding: 10px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.menu-btn:hover,
+.menu-btn:focus-visible {
+  border-color: var(--menu-accent);
+  outline: none;
+}
+
+.menu-btn.primary {
+  background: var(--menu-accent);
+  border-color: var(--menu-accent);
+  color: var(--menu-accent-text);
+}
+
+.menu-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--text);
+}
+
+.menu-field select {
+  background: var(--menu-btn-bg);
+  color: var(--menu-btn-text);
+  border: 1px solid var(--menu-btn-border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.menu-hint {
+  font-size: 11px;
+  color: var(--controls-text);
+}
+
+.menu-keys {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text);
+  text-align: left;
+}
+
+.menu-keys li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-keys li span {
+  display: inline-flex;
+  gap: 4px;
+  min-width: 90px;
 }
