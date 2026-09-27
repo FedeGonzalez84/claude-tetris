@@ -13,10 +13,11 @@ python3 -m http.server 8000      # then visit http://localhost:8000
 
 ## Architecture
 
-Three files, no framework, no bundler:
+Four files, no framework, no bundler:
 
 - **`index.html`** — DOM structure: `<canvas id="board">` (300×600px) for the playfield, `<canvas id="next-canvas">` (120×120px) for the preview, sidebar HUD (`#score`, `#lines`, `#level`), and a shared overlay `#overlay` for both PAUSE and GAME OVER states.
 - **`style.css`** — Dark/retro arcade theme; uses CSS variables, flexbox, and `backdrop-filter` on overlays.
+- **`records.js`** — Local records table (loaded before `game.js`; `localStorage['tetris-records']` = `{top:[{name,score,lines,date}] (max 5), bestCombo, maxLines}`). Renders into the sidebar `.records` section and the game-over overlay `#overlay-records` (name form shown when the score enters the top 5). Hooks called from `game.js`: `registerLock(cleared)` (in `clearLines`, tracks combo = consecutive locks that clear ≥1 line), `showGameOverRecords(score, lines)` (in `endGame`), `startRecordsRound()` (in `init`, resets combo and saves any unnamed pending score as "Anónimo").
 - **`game.js`** — All game logic (~305 lines, `'use strict'`, no modules).
 
 ### game.js internals

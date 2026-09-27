@@ -112,6 +112,7 @@ function clearLines() {
     dropInterval = Math.max(100, 1000 - (level - 1) * 90);
     updateHUD();
   }
+  registerLock(cleared);
 }
 
 function ghostY() {
@@ -226,6 +227,7 @@ function endGame() {
   overlayTitle.textContent = 'GAME OVER';
   overlayScore.textContent = `Puntuación: ${score.toLocaleString()}`;
   overlay.classList.remove('hidden');
+  showGameOverRecords(score, lines);
 }
 
 function togglePause() {
@@ -266,6 +268,7 @@ function init() {
   level = 1;
   paused = false;
   gameOver = false;
+  startRecordsRound();
   dropInterval = 1000;
   dropAccum = 0;
   lastTime = performance.now();
