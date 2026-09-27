@@ -13,10 +13,11 @@ python3 -m http.server 8000      # then visit http://localhost:8000
 
 ## Architecture
 
-Three files, no framework, no bundler:
+Four files (`skins.js` is loaded before `game.js`), no framework, no bundler:
 
 - **`index.html`** — DOM structure: `<canvas id="board">` (300×600px) for the playfield, `<canvas id="next-canvas">` (120×120px) for the preview, sidebar HUD (`#score`, `#lines`, `#level`), and a shared overlay `#overlay` for both PAUSE and GAME OVER states.
 - **`style.css`** — Dark/retro arcade theme; uses CSS variables, flexbox, and `backdrop-filter` on overlays.
+- **`skins.js`** — Visual skins. `SKINS = {retro, neon, pastel, pixel}`, each with `colors[]` (indexed 1–8) and `drawBlock(ctx, x, y, colorIndex, size, alpha)`. `currentSkin()`, `setSkin(name, persist)` (sets `body[data-skin]`, saves `localStorage['tetris-skin']`), `redrawForSkin()` (hot-swap redraw, safe when paused/game over). Skin selector is `#skin-select`; per-skin background variants live in `style.css` under `body[data-skin=...]`.
 - **`game.js`** — All game logic (~305 lines, `'use strict'`, no modules).
 
 ### game.js internals
@@ -32,6 +33,7 @@ Three files, no framework, no bundler:
 | Scoring | `LINE_SCORES = [0,100,300,500,800]` × `level`; hard drop +2/cell, soft drop +1/row |
 | Speed | `dropInterval = max(100, 1000 − (level−1) × 90)` ms; level = `floor(lines/10) + 1` |
 | Ghost piece | `ghostY()` — projects current piece down until collision; drawn at `globalAlpha = 0.2` |
+| Block drawing | `drawBlock()` delegates to `currentSkin().drawBlock()`; `drawBoard()` = grid + locked blocks (also used on game over) |
 | State flags | `paused`, `gameOver`, `animId` (RAF handle) |
 
 ### Game flow
@@ -40,4 +42,4 @@ Three files, no framework, no bundler:
 
 ## Tunable constants (top of game.js)
 
-`COLS` (10), `ROWS` (20), `BLOCK` (30 px), `COLORS` (array indexed 1–7), `LINE_SCORES`. If you change `COLS`/`ROWS`/`BLOCK`, update the canvas `width`/`height` attributes in `index.html` to match (`COLS×BLOCK` and `ROWS×BLOCK`).
+`COLS` (10), `ROWS` (20), `BLOCK` (30 px), `LINE_SCORES`. Piece colors live per skin in `SKINS[name].colors` (`skins.js`, indexed 1–8). If you change `COLS`/`ROWS`/`BLOCK`, update the canvas `width`/`height` attributes in `index.html` to match (`COLS×BLOCK` and `ROWS×BLOCK`).
