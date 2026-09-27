@@ -4,17 +4,7 @@ const COLS = 10;
 const ROWS = 20;
 const BLOCK = 30;
 
-const COLORS = [
-  null,
-  '#4dd0e1', // I - cyan
-  '#ffd54f', // O - yellow
-  '#ba68c8', // T - purple
-  '#81c784', // S - green
-  '#e57373', // Z - red
-  '#90caf9', // J - pale blue
-  '#ffb74d', // L - orange
-  '#9e9e9e', // N - tuerca (gris metálico)
-];
+// Paletas y dibujo de bloques: ver skins.js (SKINS[...].colors)
 
 const PIECES = [
   null,
@@ -160,14 +150,7 @@ function updateHUD() {
 
 function drawBlock(context, x, y, colorIndex, size, alpha) {
   if (!colorIndex) return;
-  const color = COLORS[colorIndex];
-  context.globalAlpha = alpha ?? 1;
-  context.fillStyle = color;
-  context.fillRect(x * size + 1, y * size + 1, size - 2, size - 2);
-  // highlight
-  context.fillStyle = 'rgba(255,255,255,0.12)';
-  context.fillRect(x * size + 1, y * size + 1, size - 2, 4);
-  context.globalAlpha = 1;
+  currentSkin().drawBlock(context, x, y, colorIndex, size, alpha);
 }
 
 function drawGrid() {
@@ -187,14 +170,16 @@ function drawGrid() {
   }
 }
 
-function draw() {
+function drawBoard() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawGrid();
-
-  // board
   for (let r = 0; r < ROWS; r++)
     for (let c = 0; c < COLS; c++)
       drawBlock(ctx, c, r, board[r][c], BLOCK);
+}
+
+function draw() {
+  drawBoard();
 
   // ghost
   const gy = ghostY();
@@ -327,6 +312,7 @@ themeToggle.addEventListener('click', () => {
   const isLight = !document.body.classList.contains('light-mode');
   applyTheme(isLight);
   localStorage.setItem('tetris-theme', isLight ? 'light' : 'dark');
+  redrawForSkin();
 });
 
 init();
