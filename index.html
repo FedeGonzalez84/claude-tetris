@@ -35,6 +35,16 @@
           <canvas id="next-canvas" width="120" height="120"></canvas>
         </div>
 
+        <div class="panel-section records">
+          <span class="label">RECORDS</span>
+          <ol id="records-list" class="records-list"></ol>
+          <div class="records-stats">
+            <span>Mejor combo <b id="best-combo">0</b></span>
+            <span>Máx. líneas <b id="max-lines">0</b></span>
+          </div>
+          <button type="button" id="reset-records-btn" class="link-btn">Resetear records</button>
+        </div>
+
         <div class="panel-section controls">
           <span class="label">CONTROLS</span>
           <ul>
@@ -52,11 +62,24 @@
       <div class="overlay-box">
         <p id="overlay-title">GAME OVER</p>
         <p id="overlay-score"></p>
+        <div id="overlay-records" class="overlay-records hidden">
+          <form id="name-form" class="name-form hidden" autocomplete="off">
+            <label for="player-name" id="name-hint">¡Nuevo record!</label>
+            <div class="name-row">
+              <input type="text" id="player-name" maxlength="10" placeholder="Tu nombre" />
+              <button type="submit" id="save-name-btn">Guardar</button>
+            </div>
+          </form>
+          <span class="label">TOP 5</span>
+          <ol id="overlay-records-list" class="records-list"></ol>
+          <p id="overlay-stats" class="records-stats"></p>
+        </div>
         <button id="restart-btn">Reiniciar</button>
       </div>
     </div>
   </div>
 
+  <script src="records.js"></script>
   <script src="game.js"></script>
 </body>
 </html>
